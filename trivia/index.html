@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+    <title>CS50 Trivia!</title>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Function to handle button clicks
+            function handleButtonClick(event) {
+                let clickedButton = event.target;
+                let parentSection = clickedButton.closest('.section');
+                let allButtons = parentSection.querySelectorAll('button');
+                let feedbackElement = parentSection.querySelector('.feedback[data-question="' + clickedButton.dataset.question + '"]');
+
+                // Reset all button colors
+                allButtons.forEach(button => {
+                    if (!button.classList.contains('correct')) {
+                        button.style.backgroundColor = ''; // Reset color for incorrect buttons
+                    }
+                });
+
+                if (clickedButton.classList.contains('correct')) {
+                    clickedButton.style.backgroundColor = 'Green';
+                    feedbackElement.innerHTML = 'Correct!';
+                } else {
+                    clickedButton.style.backgroundColor = 'Red';
+                    feedbackElement.innerHTML = 'Incorrect';
+
+                    // Revert background color after a delay
+                    setTimeout(function() {
+                        clickedButton.style.backgroundColor = ''; // Reset to default
+                        feedbackElement.innerHTML = ''; // Clear feedback
+                    }, 1000); // Delay in milliseconds (1 second)
+                }
+            }
+
+            // Attach event listeners to all buttons in Part 1
+            document.querySelectorAll('.section:nth-of-type(1) button').forEach(button => {
+                button.addEventListener('click', handleButtonClick);
+            });
+
+            // Function to handle free response check
+            function handleFreeResponseCheck(event) {
+                let inputId = event.target.dataset.inputId;
+                let correctAnswer = event.target.dataset.correctAnswer.toLowerCase();
+                let input = document.querySelector(`#${inputId}`);
+                let feedback = document.querySelector(`.feedback[data-question="${inputId}"]`);
+
+                if (input.value.trim().toLowerCase() === correctAnswer) {
+                    input.style.backgroundColor = 'green';
+                    feedback.innerHTML = 'Correct!';
+                } else {
+                    input.style.backgroundColor = 'red';
+                    feedback.innerHTML = 'Incorrect';
+
+                    // Revert background color after a delay
+                    setTimeout(function() {
+                        input.style.backgroundColor = ''; // Reset to default
+                        feedback.innerHTML = ''; // Clear feedback
+                    }, 5000); // Delay in milliseconds (5 second)
+                }
+            }
+
+            // Attach event listeners to all free response check buttons
+            document.querySelectorAll('.section:nth-of-type(2) button').forEach(button => {
+                button.addEventListener('click', handleFreeResponseCheck);
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="header">
+        <h1>CS50 Trivia!</h1>
+        <h4>By Reyas khan</h4>
+    </div>
+
+    <div class="container">
+        <div class="section">
+            <h2>Part 1: Multiple Choice </h2>
+            <hr>
+            <h3>1. In Scratch, which advanced block allows you to execute a list of blocks based on conditions without a predefined loop?</h3>
+            <button class="incorrect" data-question="1">Broadcast</button>
+            <button class="correct" data-question="1">Custom Block</button>
+            <button class="incorrect" data-question="1">Variable</button>
+            <button class="incorrect" data-question="1">Clone</button>
+            <p class="feedback" data-question="1"></p>
+
+            <h3>2. In binary numbers, what is the result of adding the binary numbers 1011 and 1101?</h3>
+            <button class="incorrect" data-question="2">10100</button>
+            <button class="incorrect" data-question="2">10000</button>
+            <button class="correct" data-question="2">11000</button>
+            <button class="incorrect" data-question="2">11110</button>
+            <p class="feedback" data-question="2"></p>
+
+            <h3>3. In C programming, which function is used to dynamically allocate memory for an array at runtime?</h3>
+            <button class="incorrect" data-question="3">malloc</button>
+            <button class="correct" data-question="3">calloc</button>
+            <button class="incorrect" data-question="3">realloc</button>
+            <button class="incorrect" data-question="3">free</button>
+            <p class="feedback" data-question="3"></p>
+
+            <h3>4. In data structures and algorithms, what is the primary advantage of a hash table over a binary search tree?</h3>
+            <button class="incorrect" data-question="4">Better for range queries</button>
+            <button class="incorrect" data-question="4">Simpler implementation</button>
+            <button class="correct" data-question="4">Average constant-time complexity for lookups</button>
+            <button class="incorrect" data-question="4">More efficient memory usage</button>
+            <p class="feedback" data-question="4"></p>
+
+            <h3>5. In SQL, which clause is used to filter records based on a condition after a `JOIN` operation?</h3>
+            <button class="incorrect" data-question="5">GROUP BY</button>
+            <button class="incorrect" data-question="5">ORDER BY</button>
+            <button class="correct" data-question="5">WHERE</button>
+            <button class="incorrect" data-question="5">HAVING</button>
+            <p class="feedback" data-question="5"></p>
+
+            <h3>6. In HTML5, which element is used to define an interactive form control, such as a button or a dropdown menu?</h3>
+            <button class="incorrect" data-question="6">&lt;input&gt;</button>
+            <button class="incorrect" data-question="6">&lt;select&gt;</button>
+            <button class="correct" data-question="6">&lt;button&gt;</button>
+            <button class="incorrect" data-question="6">&lt;form&gt;</button>
+            <p class="feedback" data-question="6"></p>
+        </div>
+
+        <div class="section">
+            <h2>Part 2: Free Response</h2>
+            <hr>
+            <h3>1. In JavaScript, what method is used to add an element to the end of an array?</h3>
+            <input type="text" id="input1"></input>
+            <button data-input-id="input1" data-correct-answer="push">Check Answer</button>
+            <p class="feedback" data-question="input1"></p>
+
+            <h3>2. What is the primary purpose of the `git rebase` command in version control systems like Git?</h3>
+            <input type="text" id="input2"></input>
+            <button data-input-id="input2" data-correct-answer="rewrite history">Check Answer</button>
+            <p class="feedback" data-question="input2"></p>
+
+            <h3>3. What does the `const` keyword do in JavaScript?</h3>
+            <input type="text" id="input3"></input>
+            <button data-input-id="input3" data-correct-answer="creates a constant reference">Check Answer</button>
+            <p class="feedback" data-question="input3"></p>
+
+            <h3>4. In CSS, how can you center a block-level element horizontally within its parent container?</h3>
+            <input type="text" id="input4"></input>
+            <button data-input-id="input4" data-correct-answer="margin: auto">Check Answer</button>
+            <p class="feedback" data-question="input4"></p>
+        </div>
+    </div>
+</body>
+</html>
